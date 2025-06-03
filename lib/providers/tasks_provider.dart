@@ -18,3 +18,4 @@ final repositoryProvider = Provider(
 final getAllTasksProvider = StreamProvider<List<Task>>(
   (ref) => ref.watch(repositoryProvider).watchAllTasks(),
 );
+final selectedTasksProvider = StateProvider<Set<String>>((ref) =>{} ,);

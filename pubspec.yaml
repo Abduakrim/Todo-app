@@ -44,6 +44,8 @@ dependencies:
   drift_dev: ^2.26.1
   gap: ^3.0.1
   path: ^1.9.1
+  toast: ^0.3.0
+  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:

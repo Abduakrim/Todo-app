@@ -1,10 +1,9 @@
 import 'dart:ui';
 
 import 'package:drift_todo/providers/tasks_provider.dart';
-import 'package:drift_todo/widgets/shadow_button.dart';
+import 'package:drift_todo/widgets/add_task_widget.dart';
 import 'package:drift_todo/widgets/task_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,7 +14,24 @@ class TasksScreen extends HookConsumerWidget {
     final tasks = ref.watch(getAllTasksProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Text('Todo App')),
+      appBar: AppBar(
+        backgroundColor: Colors.green.withOpacity(0.2),
+        title: Text('Todo App'),
+
+        actions: [
+          if (ref.watch(selectedTasksProvider).isNotEmpty)
+            IconButton(
+              onPressed: () {
+                final choosedTasks = ref.watch(selectedTasksProvider);
+                for (var task in choosedTasks) {
+                  ref.read(repositoryProvider).deleteTask(id: task);
+                }
+                ref.invalidate(selectedTasksProvider);
+              },
+              icon: Icon(Icons.delete_forever),
+            ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.all(15),
@@ -35,8 +51,9 @@ class TasksScreen extends HookConsumerWidget {
                 data:
                     (data) => ListView.separated(
                       itemBuilder:
-                          (context, index) => TaskWidget(task: data[index]),
-                      itemCount: 10,
+                          (context, index) =>
+                              TaskWidget(task: data.reversed.toList()[index]),
+                      itemCount: data.length,
                       separatorBuilder: (context, index) => Gap(10),
                     ),
                 error: (error, stackTrace) => Center(child: Text('$error')),
@@ -47,59 +64,6 @@ class TasksScreen extends HookConsumerWidget {
         ),
       ),
       bottomNavigationBar: AddTaskWidget(),
-    );
-  }
-}
-
-class AddTaskWidget extends HookConsumerWidget {
-  const AddTaskWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final titleTextController = useTextEditingController();
-    final descriptionTextController = useTextEditingController();
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: ShadowButton(
-        buttonColor: const Color.fromARGB(255, 134, 197, 137),
-        backButtonColor: Colors.green,
-        child: Text(
-          'Add',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-          textAlign: TextAlign.center,
-        ),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Column(
-                  children: [
-                    TextField(controller: titleTextController),
-                    TextField(controller: descriptionTextController),
-                  ],
-                ),
-                actions: [
-                  ShadowButton(
-                    child: Text('Cancel'),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  ShadowButton(
-                    child: Text('Add'),
-                    onPressed:
-                        () => ref
-                            .read(repositoryProvider)
-                            .addTask(
-                              title: titleTextController.text,
-                              description: descriptionTextController.text,
-                            ),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }
