@@ -27,6 +27,7 @@ class AddTaskWidget extends HookConsumerWidget {
             context: context,
             builder: (context) {
               return TaskAlertDialogWidget(
+                importance: 1,
                 titleTextController: titleTextController,
                 descriptionTextController: descriptionTextController,
                 onPressed: () {

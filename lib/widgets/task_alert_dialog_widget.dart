@@ -6,11 +6,13 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TaskAlertDialogWidget extends HookConsumerWidget {
+  final int importance;
   const TaskAlertDialogWidget({
     super.key,
     required this.titleTextController,
     required this.descriptionTextController,
     required this.onPressed,
+    required this.importance,
   });
 
   final TextEditingController titleTextController;
@@ -32,9 +34,24 @@ class TaskAlertDialogWidget extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TaskRadioWidget(value: 0, title: 'LOW', color: Colors.blue),
-                TaskRadioWidget(value: 1, title: 'MEDIUM', color: Colors.green),
-                TaskRadioWidget(value: 3, title: 'HIGH', color: Colors.red),
+                TaskRadioWidget(
+                  value: 0,
+                  title: 'LOW',
+                  color: Colors.blue,
+                  initialGroup: importance,
+                ),
+                TaskRadioWidget(
+                  value: 1,
+                  title: 'MEDIUM',
+                  color: Colors.green,
+                  initialGroup: importance,
+                ),
+                TaskRadioWidget(
+                  value: 3,
+                  title: 'HIGH',
+                  color: Colors.red,
+                  initialGroup: importance,
+                ),
               ],
             ),
           ],

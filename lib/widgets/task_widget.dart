@@ -116,6 +116,7 @@ class TaskWidget extends HookConsumerWidget {
                       context: context,
                       builder:
                           (context) => TaskAlertDialogWidget(
+                            importance: task.importance,
                             titleTextController: titleTextController,
                             descriptionTextController:
                                 descriptionTextController,

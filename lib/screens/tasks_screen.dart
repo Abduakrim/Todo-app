@@ -36,6 +36,8 @@ class TasksScreen extends HookConsumerWidget {
       body: Padding(
         padding: EdgeInsets.all(15),
         child: RefreshIndicator.adaptive(
+          color: Colors.lightGreen,
+          backgroundColor: Colors.green,
           onRefresh: () async => ref.invalidate(getAllTasksProvider),
           child: Stack(
             children: [
