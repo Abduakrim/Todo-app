@@ -18,4 +18,5 @@ final repositoryProvider = Provider(
 final getAllTasksProvider = StreamProvider<List<Task>>(
   (ref) => ref.watch(repositoryProvider).watchAllTasks(),
 );
-final selectedTasksProvider = StateProvider<Set<String>>((ref) =>{} ,);
+final selectedTasksProvider = StateProvider<Set<String>>((ref) => {});
+final radioGroupValueProvider = StateProvider((ref) => 1);

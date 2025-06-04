@@ -1,9 +1,8 @@
-import 'dart:ui';
 import 'package:drift_todo/providers/tasks_provider.dart';
+import 'package:drift_todo/widgets/task_alert_dialog_widget.dart';
 import 'package:drift_todo/widgets/shadow_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddTaskWidget extends HookConsumerWidget {
@@ -27,57 +26,23 @@ class AddTaskWidget extends HookConsumerWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(
-                backgroundColor: const Color.fromARGB(255, 146, 199, 148),
-                content: SizedBox(
-                  height: 400,
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: titleTextController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(width: 1),
-                          ),
-                        ),
-                      ),
-                      Gap(20),
-                      TextField(
-                        controller: descriptionTextController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(width: 1),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  ShadowButton(
-                    child: Text('Cancel'),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  ShadowButton(
-                    child: Text('Add'),
-                    onPressed: () {
-                      if (titleTextController.text.trim().isNotEmpty) {
-                        ref
-                            .read(repositoryProvider)
-                            .addTask(
-                              title: titleTextController.text.trim(),
-                              description:
-                                  descriptionTextController.text.trim(),
-                            );
-                      }
-                      Navigator.pop(context);
-                      titleTextController.clear();
-                      descriptionTextController.clear();
-                    },
-                  ),
-                ],
+              return TaskAlertDialogWidget(
+                titleTextController: titleTextController,
+                descriptionTextController: descriptionTextController,
+                onPressed: () {
+                  if (titleTextController.text.trim().isNotEmpty) {
+                    ref
+                        .read(repositoryProvider)
+                        .addTask(
+                          title: titleTextController.text.trim(),
+                          description: descriptionTextController.text.trim(),
+                          importance: ref.watch(radioGroupValueProvider),
+                        );
+                  }
+                  Navigator.pop(context);
+                  titleTextController.clear();
+                  descriptionTextController.clear();
+                },
               );
             },
           );

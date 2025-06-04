@@ -29,4 +29,18 @@ class TaskRepository {
   Future<void> toggleTask({required String id, required bool value}) async {
     return _dao.toggleTask(id, value);
   }
+
+  Future<void> editTask({
+    required String title,
+    required String? description,
+    required int importance,
+    required String id,
+  }) async {
+    return _dao.editTask(
+      title: title,
+      description: description,
+      id: id,
+      importance: importance,
+    );
+  }
 }

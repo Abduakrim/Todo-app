@@ -24,4 +24,19 @@ class TasksDao extends DatabaseAccessor<AppDatabase> with _$TasksDaoMixin {
       (t) => t.id.equals(id),
     )).write(TasksCompanion(isDone: Value(value)));
   }
+
+  Future<void> editTask({
+    required String title,
+    required String? description,
+    required String id,
+    required int importance,
+  }) {
+    return (update(tasks)..where((t) => t.id.equals(id))).write(
+      TasksCompanion(
+        title: Value(title),
+        description: Value(description ?? ''),
+        importance: Value(importance),
+      ),
+    );
+  }
 }
