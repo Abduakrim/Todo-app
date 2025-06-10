@@ -6,14 +6,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddTaskWidget extends HookConsumerWidget {
-  const AddTaskWidget({super.key});
+  const AddTaskWidget({super.key, this.padding});
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleTextController = useTextEditingController();
     final descriptionTextController = useTextEditingController();
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: ShadowButton(
         buttonColor: const Color.fromARGB(255, 134, 197, 137),
         backButtonColor: Colors.green,

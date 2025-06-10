@@ -65,7 +65,27 @@ class TasksScreen extends HookConsumerWidget {
           ),
         ),
       ),
-      bottomNavigationBar: AddTaskWidget(),
+      floatingActionButton: LayoutBuilder(
+        builder: (context, constraints) {
+          double width = constraints.maxWidth;
+          if (width > 600) {
+            return AddTaskWidget();
+          } else {
+            return SizedBox();
+          }
+        },
+      ),
+
+      bottomNavigationBar: LayoutBuilder(
+        builder: (context, constraints) {
+          double width = constraints.maxWidth;
+          if (width > 600) {
+            return SizedBox();
+          } else {
+            return AddTaskWidget();
+          }
+        },
+      ),
     );
   }
 }
