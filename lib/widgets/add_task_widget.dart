@@ -1,3 +1,4 @@
+import 'package:drift_todo/providers/is_scale_button_provider.dart';
 import 'package:drift_todo/providers/tasks_provider.dart';
 import 'package:drift_todo/widgets/task_alert_dialog_widget.dart';
 import 'package:drift_todo/widgets/shadow_button.dart';
@@ -15,7 +16,8 @@ class AddTaskWidget extends HookConsumerWidget {
     final descriptionTextController = useTextEditingController();
     return Padding(
       padding: padding ?? EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: ShadowButton(
+      child: MyButton(
+        isScaleButton: ref.watch(isScaleButtonProvider),
         buttonColor: const Color.fromARGB(255, 134, 197, 137),
         backButtonColor: Colors.green,
         child: Text(

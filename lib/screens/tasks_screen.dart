@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:drift_todo/providers/is_scale_button_provider.dart';
 import 'package:drift_todo/providers/tasks_provider.dart';
 import 'package:drift_todo/widgets/add_task_widget.dart';
 import 'package:drift_todo/widgets/task_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,9 +16,24 @@ class TasksScreen extends HookConsumerWidget {
     final tasks = ref.watch(getAllTasksProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
+
       appBar: AppBar(
         backgroundColor: Colors.green.withOpacity(0.2),
-        title: Text('Todo App'),
+
+        title: Row(
+          children: [
+            Text('Scale Buttons'),
+            Switch(
+              value: ref.watch(isScaleButtonProvider),
+
+              onChanged: (value) {
+                ref
+                    .read(isScaleButtonProvider.notifier)
+                    .update((state) => value);
+              },
+            ),
+          ],
+        ),
 
         actions: [
           if (ref.watch(selectedTasksProvider).isNotEmpty)
@@ -59,7 +76,8 @@ class TasksScreen extends HookConsumerWidget {
                       separatorBuilder: (context, index) => Gap(10),
                     ),
                 error: (error, stackTrace) => Center(child: Text('$error')),
-                loading: () => CircularProgressIndicator.adaptive(),
+                loading:
+                    () => Center(child: CupertinoActivityIndicator(radius: 25)),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:drift_todo/providers/is_scale_button_provider.dart';
 import 'package:drift_todo/widgets/shadow_button.dart';
 import 'package:drift_todo/widgets/task_radio_widget.dart';
 import 'package:drift_todo/widgets/task_text_field.dart';
@@ -58,11 +59,16 @@ class TaskAlertDialogWidget extends HookConsumerWidget {
         ),
       ),
       actions: [
-        ShadowButton(
+        MyButton(
+          isScaleButton: ref.watch(isScaleButtonProvider),
           child: Text('Cancel'),
           onPressed: () => Navigator.pop(context),
         ),
-        ShadowButton(onPressed: onPressed, child: Text('Add')),
+        MyButton(
+          isScaleButton: ref.watch(isScaleButtonProvider),
+          onPressed: onPressed,
+          child: Text('Add'),
+        ),
       ],
     );
   }
